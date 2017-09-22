@@ -37,3 +37,9 @@ class Hamming
 	end
 
 end
+
+# required module below
+
+module BookKeeping
+	VERSION = 3
+end
