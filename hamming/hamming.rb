@@ -22,10 +22,10 @@ class Hamming
   def self.compute(strand1, strand2)
 		
     raise ArgumentError if strand1.length != strand2.length
-		
-	counter = 0
-	(0...strand1.length).each { |i| counter += 1 if strand1[i] != strand2[i] }
-	counter
+
+    counter = 0
+    (0...strand1.length).each { |i| counter += 1 if strand1[i] != strand2[i] }
+    counter
 
   end
 
