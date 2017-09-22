@@ -19,7 +19,7 @@ class HammingTest < Minitest::Test
   end
 
   def test_complete_distance_in_single_nucleotide_strands
-    skip
+    # skip
     assert_equal 1, Hamming.compute('A', 'G')
   end
 
