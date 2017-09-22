@@ -9,7 +9,7 @@ class HammingTest < Minitest::Test
   end
 
   def test_identical_strands
-    skip
+    # skip
     assert_equal 0, Hamming.compute('A', 'A')
   end
 
