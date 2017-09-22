@@ -64,7 +64,7 @@ class HammingTest < Minitest::Test
   end
 
   def test_large_distance_in_off_by_one_strand
-    skip
+    # skip
     assert_equal 9, Hamming.compute('GGACGGATTCTG', 'AGGACGGATTCT')
   end
 
