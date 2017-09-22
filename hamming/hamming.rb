@@ -19,20 +19,20 @@ class Hamming
 	# Refactored the code from above to minimise conditionals
 	# Chose a guard clause for the error capture
 
-	def self.compute(strand1, strand2)
+  def self.compute(strand1, strand2)
 		
-		raise ArgumentError if strand1.length != strand2.length
+    raise ArgumentError if strand1.length != strand2.length
 		
-		counter = 0
-		(0...strand1.length).each { |i| counter += 1 if strand1[i] != strand2[i] }
-		counter
+	counter = 0
+	(0...strand1.length).each { |i| counter += 1 if strand1[i] != strand2[i] }
+	counter
 
-	end
+  end
 
 end
 
 # required module below
 
 module BookKeeping
-	VERSION = 3
+  VERSION = 3
 end
