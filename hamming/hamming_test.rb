@@ -54,7 +54,7 @@ class HammingTest < Minitest::Test
   end
 
   def test_same_nucleotides_in_different_positions
-    skip
+    # skip
     assert_equal 2, Hamming.compute('TAG', 'GAT')
   end
 
