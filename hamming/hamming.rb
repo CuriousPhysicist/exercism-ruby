@@ -20,18 +20,11 @@ class Hamming
 	# Chose a guard clause for the error capture
 
 	def self.compute(strand1, strand2)
-		if strand1.length != strand2.length then
-			raise ArgumentError
-		end 
-			
+		
+		raise ArgumentError if strand1.length != strand2.length
+		
 		counter = 0
-
-		(0..strand1.length-1).each do |i|
-			if strand1[i] != strand2[i] then
-				counter += 1
-			end
-		end
-
+		(0...strand1.length).each { |i| counter += 1 if strand1[i] != strand2[i] }
 		counter
 
 	end
