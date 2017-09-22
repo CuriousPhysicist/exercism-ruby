@@ -1,4 +1,5 @@
 class Hamming
-	def self.compute
+	def self.compute(strand1, strand2)
+		0
 	end
 end
