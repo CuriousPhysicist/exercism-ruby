@@ -49,7 +49,7 @@ class HammingTest < Minitest::Test
   end
 
   def test_non_unique_character_in_second_strand
-    skip
+    # skip
     assert_equal 1, Hamming.compute('AGG', 'AGA')
   end
 
