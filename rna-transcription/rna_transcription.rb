@@ -1,20 +1,29 @@
 class Complement
   def self.of_dna(strand)
     
-    result = ""
+    unzipped_dna = strand.split("")
 
-    case
-      when strand == "C"
-        result = "G"
-      when strand == "G"
-        result = "C"
-      when strand == "A"
-        result = "U"
-      when strand == "T"
-        result = "A"
+
+    build_rna_from(unzipped_dna)
+
+  end
+
+  def self.build_rna_from(dna_array)
+
+    rna_array = dna_array.map do |base|
+      case
+        when base == "C"
+          result = "G"
+        when base == "G"
+          result = "C"
+        when base == "A"
+          result = "U"
+        when base == "T"
+          result = "A"
+      end
     end
 
-    result
+  rna_array.join
 
   end
 end
