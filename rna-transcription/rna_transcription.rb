@@ -3,10 +3,7 @@ class Complement
   def self.of_dna(strand)
 
     unzipped_dna = strand.split("")
-
-    return '' unless unzipped_dna.all? { |base| %w[A T C G].one? { |b| b == base } }
-
-    build_rna_from(unzipped_dna)
+    unzipped_dna.all? { |base| %w[A T C G].one? { |b| b == base } } ? build_rna_from(unzipped_dna) : ''
 
   end
 
