@@ -10,29 +10,37 @@ class Complement
 
   end
 
-  private
+  class << self
 
-  def self.build_rna_from(dna_array)
+    private
 
-    rna_array = dna_array.map { |base| RNA.find_match_for(base) } 
+    def build_rna_from(dna)
 
-    rna_array.join
-    
+      rna = dna.map { |base| RNA.find_match_for(base) } 
+
+      rna.join
+      
+    end
+
   end
+
 end
 
 class RNA
 
   def self.find_match_for(base)
-    case
-      when base == "C"
-        return "G"
-      when base == "G"
-        return "C"
-      when base == "T"
-        return "A"
-      when base == "A"
-        return "U"
+    
+    case base
+      when "C"
+        "G"
+      when "G"
+        "C"
+      when "T"
+        "A"
+      when "A"
+        "U"
+      else
+        raise 'Unexpected input for RNA'
     end
   end
 
