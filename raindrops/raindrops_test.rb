@@ -14,7 +14,7 @@ class RaindropsTest < Minitest::Test
   end
 
   def test_the_sound_for_5_is_plang
-    skip
+    # skip
     assert_equal "Plang", Raindrops.convert(5)
   end
 

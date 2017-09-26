@@ -1,5 +1,13 @@
 class Raindrops
   def self.convert(number)
-    number == 1 ? '1' : 'Pling'
+    if number == 3
+      'Pling'
+    elsif number == 5
+      'Plang'
+    elsif number == 7
+      'Plong'
+    else
+      number.to_s
+    end
   end
 end
