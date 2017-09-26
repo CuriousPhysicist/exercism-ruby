@@ -1,32 +1,44 @@
 class Complement
-  
+
   def self.of_dna(strand)
-
-    unzipped_dna = strand.split("")
-    unzipped_dna.all? { |base| %w[A T C G].one? { |b| b == base } } ? build_rna_from(unzipped_dna) : ''
-
+    dna = DNA.new(strand)
+    build_rna_from(dna.strand)
   end
 
   class << self
-
     private
-
     def build_rna_from(dna)
-
-      rna = dna.map { |base| RNA.find_match_for(base) } 
-
+      rna = dna.map { |base| RNA.find_match_for(base) }
       rna.join
-      
     end
-
   end
+end
 
+class DNA
+  
+  def initialize (dna)
+    unzip (dna)
+  end
+  
+  def strand
+    @dna
+  end
+  
+  private
+  
+  def unzip (dna)
+    unzipped_dna = dna.split("")
+    if unzipped_dna.all? { |base| %w[A T C G].one? { |b| b == base } } then
+      @dna = unzipped_dna
+    else
+      @dna = []
+    end
+  end
 end
 
 class RNA
 
-  def self.find_match_for(base)
-    
+  def self.find_match_for(base) 
     case base
       when "C"
         "G"
@@ -37,10 +49,9 @@ class RNA
       when "A"
         "U"
       else
-        raise 'Unexpected input for RNA'
+        raise "Unexpected input for RNA, #{base}"
     end
   end
-
 end
 
 module BookKeeping
