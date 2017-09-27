@@ -1,39 +1,25 @@
 class Complement
   def self.of_dna(strand)
-    genome = Genome.new(strand)
-    DNA.new(genome.strand).convert_to_rna
+    @unzipped_strand = unzip strand
+    DNA.new(@unzipped_strand).convert_to_rna
   end
-end
 
-class Genome
-  def initialize(nucleotides)
-    @strand = unzip nucleotides
-  end
-  
-  def strand
-    @strand
-  end
-  
-  private
-  
-  def unzip(dna)
-    unzipped_dna = dna.split('')
-    
-    if unzipped_dna.all? { |base| %w[A T C G].one? { |b| b == base } }
-      unzipped_dna
-    else
-      raise "Input strand #{dna} is not a valid genome sequence."
+  class << self
+    private
+    def unzip(strand)
+      strand.split('')
     end
-    
-  rescue => e
-    puts "#{e}"
-    []
   end
 end
 
 class DNA
-  def initialize(dna)
-    @dna = dna
+  def initialize(unzipped_strand)
+    @dna = unzipped_strand
+    check_strand_is_dna @dna
+  end
+
+  def check_strand_is_dna(unzipped_strand)
+    @dna = [] unless unzipped_strand.all? { |base| %w[A T C G].one? { |b| b == base } }
   end
 
   def convert_to_rna
