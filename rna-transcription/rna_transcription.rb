@@ -15,39 +15,50 @@ end
 
 # This class checks the validity of the input strand
 class DNA
+  attr_reader :dna_nucleotides
+
   def initialize(unzipped_strand)
+    @dna_nucleotides = %w[A T C G]
     @dna = unzipped_strand
     check_strand_is_dna @dna
   end
 
   def convert_to_rna
-    RNA.new.convert(@dna)
+    RNA.new(dna_nucleotides).convert(@dna)
   end
 
   private
 
   def check_strand_is_dna(unzipped_strand)
     @dna = [] unless unzipped_strand.all? do |base|
-      %w[A T C G].one? { |b| b == base }
+      dna_nucleotides.one? { |b| b == base }
     end
   end
 end
 
 # This class performs the conversion on a valid strand
 class RNA
-  def initialize
-    @option = { C: 'G', G: 'C', T: 'A', A: 'U' }
+  attr_reader :rna_nucleotides
+  attr_reader :dna_nucleotides
+
+  def initialize(dna_nucleotides)
+    @dna_nucleotides = dna_nucleotides
+    @rna_nucleotides = %w[U A G C]
+    @option = link_nucleotides
   end
 
   def convert(dna)
-    rna = dna.map { |base| find_match_for(base) }
-    rna.join
+    dna.map { |base| find_match_for(base) }.join
   end
 
   private
 
+  def link_nucleotides
+    dna_nucleotides.zip(rna_nucleotides).to_h
+  end
+
   def find_match_for(base)
-    @option.fetch base.to_sym
+    @option.fetch base
   rescue KeyError
     raise "Unexpected input for RNA, #{base}"
   end
