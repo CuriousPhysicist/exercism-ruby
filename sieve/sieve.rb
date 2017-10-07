@@ -1,9 +1,10 @@
 # Required Class
 class Sieve
-  attr_reader :number
+  attr_reader :number, :numbers
 
   def initialize(number)
     @number = number
+    @numbers = (0..number).to_a
   end
 
   def primes
