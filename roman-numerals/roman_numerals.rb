@@ -9,38 +9,27 @@ end
 
 # Class for encoding integers to arbirary code
 class Encoder
-  attr_reader :encoding_hash, :pair, :candidate, :cache
+  attr_reader :encoding_hash, :pair, :candidate
   def initialize(keys, values)
     @encoding_hash = keys.zip(values).to_h
-    @pair = Struct.new(:number, :code)
-    @cache = translation_cache
+    @candidate = Struct.new(:number, :code)
   end
 
   def encode(number)
-    create_candidate(number)
-    encode_number
+    encode_number(candidate.new(number, ''))
   end
 
   private
 
-  def create_candidate(number, code = '')
-    @candidate = pair.new(number, code)
-  end
-
-  def encode_number
-    cache.each do |t|
-      next if candidate.number < t.number
-      candidate.number.div(t.number).times do
-        create_candidate(candidate.number - t.number, candidate.code + t.code)
+  def encode_number(candidate)
+    encoding_hash.each do |key, value|
+      next if candidate.number < key
+      candidate.number.div(key).times do
+        candidate.number -= key
+        candidate.code += value
       end
     end
     candidate.code
-  end
-
-  def translation_cache
-    encoding_hash.map do |key, value|
-      pair.new(key, value)
-    end
   end
 end
 
