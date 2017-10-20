@@ -1,37 +1,13 @@
+# Calculates the Hamming distance between two strands of DNA
 class Hamming
-		
-	# This first form got 13 tests passing, on the 14th it failed
-
-	# def self.compute(strand1, strand2)
-	# 	if strand1 == strand2 
-	# 		0
-	# 	else 
-	# 		counter = 0
-	# 		(0..strand1.length-1).each do |i|
-	# 			if strand1[i] != strand2[i] then
-	# 				counter += 1
-	# 			end
-	# 		end
-	# 		counter
-	# 	end
-	# end
-
-	# Refactored the code from above to minimise conditionals
-	# Chose a guard clause for the error capture
-
   def self.compute(strand1, strand2)
-		
-    raise ArgumentError if strand1.length != strand2.length
-
-    counter = 0
-    (0...strand1.length).each { |i| counter += 1 if strand1[i] != strand2[i] }
-    counter
-
+    unless strand1.length == strand2.length
+      raise ArgumentError,
+            'Strands must be of equal length to give a Hamming distance.'
+    end
+    (0...strand1.length).count { |i| strand1[i] != strand2[i] }
   end
-
 end
-
-# required module below
 
 module BookKeeping
   VERSION = 3
