@@ -1,33 +1,48 @@
-# The Primary Class
+# The Primary Class, Bob just knows how to respond.
 class Bob
-
   RESPONSE = {
     question: 'Sure.',
     shouting: 'Whoa, chill out!',
     silence:  'Fine. Be that way!',
     default:  'Whatever.'
-  }
+  }.freeze
 
   def self.hey(remark)
     RESPONSE[Remark.new(remark).type]
   end
 end
 
+# This object knows what kind of remark it is
 class Remark
   def initialize(remark)
     @remark = remark.strip
   end
 
   def type
-    if @remark.upcase == @remark && @remark.scan(/[a-zA-Z]/).empty? == false
+    case
+    when shouting?
       :shouting
-    elsif @remark.chars.last == '?'
+    when question?
       :question
-    elsif @remark.empty?
+    when silence? 
       :silence
     else
       :default
     end
+  end
+
+  private
+
+  def shouting?
+    @remark.upcase == @remark && @remark.downcase != @remark
+  end
+
+  def question?
+    @remark.end_with?('?')
+  end
+
+  def silence?
+    @remark.empty?
   end
 end
 
