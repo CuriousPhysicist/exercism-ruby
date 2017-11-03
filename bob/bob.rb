@@ -6,37 +6,14 @@ class Bob
     silence:  'Fine. Be that way!',
     general:  'Whatever.'
   }.freeze
+  
+  @shouting = ->(r) { r.is_a?(Symbol) ? r : (r.upcase == r && r.downcase != r ? :shouting : r) }
+  @question = ->(r) { r.is_a?(Symbol) ? r : (r.end_with?('?') ? :question : r) }
+  @silence = ->(r) { r.is_a?(Symbol) ? r : (r.empty? ? :silence : r) }
+  @general = ->(r ){ r.is_a?(Symbol) ? r : :general }
 
   def self.hey(remark)
-    RESPOND_TO[what_is_happening(remark.strip.extend(Conversations))]
-  end
-
-  def self.what_is_happening(remark)
-    if remark.shouting?
-      :shouting
-    elsif remark.question?
-      :question
-    elsif remark.silence?
-      :silence
-    else
-      :general
-    end
-  end
-end
-
-# This module extends the behaviour
-# of a conversation string
-module Conversations
-  def shouting?
-    self.upcase == self && self.downcase != self
-  end
-
-  def question?
-    self.end_with?('?')
-  end
-
-  def silence?
-    self.empty?
+    RESPOND_TO[@general.(@silence.(@question.(@shouting.(remark.strip))))]
   end
 end
 
