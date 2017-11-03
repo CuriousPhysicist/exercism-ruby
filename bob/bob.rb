@@ -4,30 +4,31 @@ class Bob
     question: 'Sure.',
     shouting: 'Whoa, chill out!',
     silence:  'Fine. Be that way!',
-    default:  'Whatever.'
+    general:  'Whatever.'
   }.freeze
 
   def self.hey(remark)
-    RESPONSE[Remark.new(remark).type]
+    RESPONSE[RealityFilter.new(remark).what_is_happening]
   end
 end
 
-# This object knows what kind of remark it is
-class Remark
+# This object knows about the remark
+# and simplifies Bob's world
+class RealityFilter
   def initialize(remark)
     @remark = remark.strip
   end
 
-  def type
+  def what_is_happening
     case
     when shouting?
       :shouting
     when question?
       :question
-    when silence? 
+    when silence?
       :silence
     else
-      :default
+      :general
     end
   end
 
