@@ -6,14 +6,40 @@ class Bob
     silence:  'Fine. Be that way!',
     general:  'Whatever.'
   }.freeze
-  
-  @shouting = ->(r) { r.is_a?(Symbol) ? r : (r.upcase == r && r.downcase != r ? :shouting : r) }
-  @question = ->(r) { r.is_a?(Symbol) ? r : (r.end_with?('?') ? :question : r) }
-  @silence = ->(r) { r.is_a?(Symbol) ? r : (r.empty? ? :silence : r) }
-  @general = ->(r ){ r.is_a?(Symbol) ? r : :general }
+
+  @shouting = lambda { |r|
+    if r.is_a?(Symbol)
+      r
+    else
+      r.upcase == r && r.downcase != r ? :shouting : r
+    end
+  }
+  @question = lambda { |r|
+    if r.is_a?(Symbol)
+      r
+    else
+      r.end_with?('?') ? :question : r
+    end
+  }
+  @silence = lambda { |r|
+    if r.is_a?(Symbol)
+      r
+    else
+      r.empty? ? :silence : r
+    end
+  }
+  @general = ->(r) { r.is_a?(Symbol) ? r : :general }
 
   def self.hey(remark)
-    RESPOND_TO[@general.(@silence.(@question.(@shouting.(remark.strip))))]
+    RESPOND_TO[
+      @general.call(
+        @silence.call(
+          @question.call(
+            @shouting.call(remark.strip)
+          )
+        )
+      )
+    ]
   end
 end
 
