@@ -1,6 +1,6 @@
 # The Primary Class, Bob just knows how to respond.
 class Bob
-  RESPONSE = {
+  RESPOND_TO = {
     question: 'Sure.',
     shouting: 'Whoa, chill out!',
     silence:  'Fine. Be that way!',
@@ -8,42 +8,35 @@ class Bob
   }.freeze
 
   def self.hey(remark)
-    RESPONSE[RealityFilter.new(remark).what_is_happening]
-  end
-end
-
-# This object knows about the remark
-# and simplifies Bob's world
-class RealityFilter
-  def initialize(remark)
-    @remark = remark.strip
+    RESPOND_TO[what_is_happening(remark.strip.extend(Conversations))]
   end
 
-  def what_is_happening
-    case
-    when shouting?
+  def self.what_is_happening(remark)
+    if remark.shouting?
       :shouting
-    when question?
+    elsif remark.question?
       :question
-    when silence?
+    elsif remark.silence?
       :silence
     else
       :general
     end
   end
+end
 
-  private
-
+# This module extends the behaviour
+# of a conversation string
+module Conversations
   def shouting?
-    @remark.upcase == @remark && @remark.downcase != @remark
+    self.upcase == self && self.downcase != self
   end
 
   def question?
-    @remark.end_with?('?')
+    self.end_with?('?')
   end
 
   def silence?
-    @remark.empty?
+    self.empty?
   end
 end
 
